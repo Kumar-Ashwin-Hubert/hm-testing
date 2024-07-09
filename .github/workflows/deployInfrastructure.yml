@@ -5,6 +5,12 @@ on:
     branches:
       - main 
   workflow_dispatch:  # Enables manual triggering
+    inputs:
+      create_management_resource_group:
+        description: 'Create a management resource group'
+        required: true
+        default: true
+        type: boolean
   
 permissions:
   id-token: write
@@ -15,6 +21,7 @@ jobs:
     uses: ./.github/workflows/deployInfrastructure-workflow.yml
     with:
       environment: dev
+      create_management_resource_group: ${{ inputs.create_management_resource_group }}
     secrets: inherit
 
   deploy-test:
@@ -23,6 +30,7 @@ jobs:
     uses: ./.github/workflows/deployInfrastructure-workflow.yml
     with:
       environment: test
+    secrets: inherit
 
   deploy-prod:
     name: Deploy Infrastructure
@@ -30,3 +38,4 @@ jobs:
     uses: ./.github/workflows/deployInfrastructure-workflow.yml
     with:
       environment: prod
+    secrets: inherit

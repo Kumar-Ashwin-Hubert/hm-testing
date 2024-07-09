@@ -7,6 +7,10 @@ on:
         description: 'Environment to deploy to'
         required: true
         type: string
+      create_management_resource_group:
+        description: 'Create the management resource group'
+        required: false
+        type: boolean
 
 jobs:
   deploy:
@@ -24,12 +28,13 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Add environment specific variables to main.parameters.json
+        # Copy infra specific 'main.<env>.parameters.json' to 'main.final.parameters.json'
+      - name: Add environment specific variables to main.final.parameters.json
         run: |
           touch ./infra/main.final.parameters.json
           cat ./infra/main.${{ inputs.environment }}.parameters.json >> ./infra/main.final.parameters.json
 
-        # Deploy Bicep file
+        # Deploy infrastructure using Bicep and 'main.final.parameters.json' created above
       - name: Deploy / ${{ inputs.environment }}
         uses: azure/arm-deploy@v1
         with:
@@ -38,4 +43,5 @@ jobs:
           template: ./infra/main.bicep
           region: WestUS
           parameters: ./infra/main.final.parameters.json
+          additionalArguments: '--parameters createManagementResourceGroup=${{ inputs.create_management_resource_group }}'
           failOnStdErr: false

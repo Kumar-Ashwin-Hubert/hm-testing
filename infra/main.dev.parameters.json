@@ -7,6 +7,9 @@
         },
         "location": {
             "value": "East US"
+        },
+        "createManagementResourceGroup": {
+            "value": true
         }
     }
 }
