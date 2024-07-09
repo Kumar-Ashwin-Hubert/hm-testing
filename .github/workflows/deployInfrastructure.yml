@@ -21,7 +21,6 @@ jobs:
     uses: ./.github/workflows/deployInfrastructure-workflow.yml
     with:
       environment: dev
-      create_management_resource_group: ${{ inputs.create_management_resource_group }} || false
     secrets: inherit
 
   deploy-test:

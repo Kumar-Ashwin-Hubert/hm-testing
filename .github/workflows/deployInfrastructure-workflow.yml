@@ -9,7 +9,8 @@ on:
         type: string
       create_management_resource_group:
         description: 'Create the management resource group'
-        required: false
+        required: true
+        default: true
         type: boolean
 
 jobs:
