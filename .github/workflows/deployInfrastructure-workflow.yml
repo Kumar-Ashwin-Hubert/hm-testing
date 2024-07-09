@@ -25,7 +25,8 @@ jobs:
 
       - name: Add environment specific variables to main.parameters.json
         run: |
-          cat ./infra/main.${{ inputs.environment }}parameters.json >> ./infra/main.parameters.json
+          touch ./infra/main.final.parameters.json
+          cat ./infra/main.${{ inputs.environment }}parameters.json >> ./infra/main.final.parameters.json
 
         # Deploy Bicep file
       - name: Deploy / ${{ inputs.environment }}
@@ -35,5 +36,5 @@ jobs:
           scope: subscription
           template: ./infra/main.bicep
           region: WestUS
-          parameters: ./infra/main.parameters.json
+          parameters: ./infra/main.final.parameters.json
           failOnStdErr: false
