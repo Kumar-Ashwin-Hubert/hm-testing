@@ -27,3 +27,11 @@ resource managementResourceGroup 'Microsoft.Resources/resourceGroups@2022-09-01'
   location: location
   tags: defaultTags
 }
+
+module import_acr_image 'import-image.bicep' = {
+  name: 'Import Hello World Image to ACR'
+  scope: resourceGroup(jobManagerResourceGroup.name)
+  params: {
+    location: location
+  }
+}
