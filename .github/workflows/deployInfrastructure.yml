@@ -18,12 +18,14 @@ jobs:
 
   deploy-test:
     name: Deploy Test Infrastructure
+    needs: deploy-dev
     uses: ./.github/workflows/deployInfrastructure-workflow.yml
     with:
       environment: test
 
   deploy-prod:
     name: Deploy Prod Infrastructure
+    needs: deploy-test
     uses: ./.github/workflows/deployInfrastructure-workflow.yml
     with:
       environment: prod

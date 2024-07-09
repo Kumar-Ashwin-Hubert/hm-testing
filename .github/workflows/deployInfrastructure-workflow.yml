@@ -13,24 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
+        # Checkout code
+      - uses: actions/checkout@main
 
-      # Checkout code
-    - uses: actions/checkout@main
+        # Log into Azure
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # Log into Azure
-    - uses: azure/login@v1
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      # Deploy Bicep file
-    - name: Deploy / ${{ inputs.environment }}
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        scope: subscription
-        template: ./infra/main.bicep
-        region: WestUS
-        parameters: ./infra/main.{{ inputs.environment }}.parameters.json
-        failOnStdErr: false
+        # Deploy Bicep file
+      - name: Deploy / ${{ inputs.environment }}
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          scope: subscription
+          template: ./infra/main.bicep
+          region: WestUS
+          parameters: ./infra/main.{{ inputs.environment }}.parameters.json
+          failOnStdErr: false
