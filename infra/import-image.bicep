@@ -8,8 +8,6 @@ resource script 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     azCliVersion: '2.20.0'
     timeout: 'PT30M'
     retentionInterval: 'P1D'
-    scriptContent: '''
-      az acr import --name testtodelete1234 --source docker.io/library/hello-world:latest --image hello-world:latest
-    '''
+    scriptContent: 'az acr import --name testtodelete1234 --source docker.io/library/hello-world:latest --image hello-world:latest'
   }
 }
