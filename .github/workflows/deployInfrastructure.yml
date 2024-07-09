@@ -1,0 +1,29 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - main 
+  workflow_dispatch:  # Enables manual triggering
+  
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  deploy-dev:
+    name: Deploy Dev Infrastructure
+    uses: ./.github/workflows/deployInfrastructure-workflow.yml
+    with:
+      environment: dev
+
+  deploy-test:
+    name: Deploy Test Infrastructure
+    uses: ./.github/workflows/deployInfrastructure-workflow.yml
+    with:
+      environment: test
+
+  deploy-prod:
+    name: Deploy Prod Infrastructure
+    uses: ./.github/workflows/deployInfrastructure-workflow.yml
+    with:
+      environment: prod

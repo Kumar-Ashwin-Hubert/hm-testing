@@ -1,18 +1,17 @@
-name: Azure ARM
+name: Deploy Infrastructure
 
 on:
-  push:
-    branches:
-      - main 
-  workflow_dispatch:  # Enables manual triggering
-  
-permissions:
-  id-token: write
-  contents: read
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: string
+
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ inputs.environment }}
     steps:
 
       # Checkout code
@@ -26,12 +25,12 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       # Deploy Bicep file
-    - name: deploy
+    - name: Deploy / ${{ inputs.environment }}
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         scope: subscription
         template: ./infra/main.bicep
         region: WestUS
-        parameters: ./infra/main.parameters.json
+        parameters: ./infra/main.{{ inputs.environment }}.parameters.json
         failOnStdErr: false
