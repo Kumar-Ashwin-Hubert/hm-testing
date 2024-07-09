@@ -11,7 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: dev
+    name: ${{ inputs.environment }}
     steps:
         # Checkout code
       - uses: actions/checkout@main
@@ -26,7 +26,7 @@ jobs:
       - name: Add environment specific variables to main.parameters.json
         run: |
           touch ./infra/main.final.parameters.json
-          cat ./infra/main.${{ inputs.environment }}parameters.json >> ./infra/main.final.parameters.json
+          cat ./infra/main.${{ inputs.environment }}.parameters.json >> ./infra/main.final.parameters.json
 
         # Deploy Bicep file
       - name: Deploy / ${{ inputs.environment }}
