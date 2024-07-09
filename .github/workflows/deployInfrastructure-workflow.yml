@@ -23,6 +23,10 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Add environment specific variables to main.parameters.json
+        run: |
+          cat ./infra/main.${{ inputs.environment }}parameters.json >> ./infra/main.parameters.json
+
         # Deploy Bicep file
       - name: Deploy / ${{ inputs.environment }}
         uses: azure/arm-deploy@v1
@@ -31,5 +35,5 @@ jobs:
           scope: subscription
           template: ./infra/main.bicep
           region: WestUS
-          parameters: ./infra/main.{{ inputs.environment }}.parameters.json
+          parameters: ./infra/main.parameters.json
           failOnStdErr: false
