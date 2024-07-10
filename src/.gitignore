@@ -1,0 +1,41 @@
+# Tools
+.idea
+*.suo
+*.user
+*.sln.docstates
+*.sln.ide/
+*.userprefs
+*.GhostDoc.xml
+*.bicepparam
+.vscode
+.vs
+.dapr
+
+# Outputs
+publish
+results
+
+# Docker env
+.env
+certs
+
+# Build related
+tools
+
+# .NET
+[Bb]in/
+[Oo]bj/
+[Pp]ackages/
+
+# Apple directory
+.DS_Store
+
+# Terraform
+.terraform
+terraform.tfstate
+
+# Config files
+.env
+appsettings.local.json
+.bicepparam
+!/infrastructure/apps.bicepparam
