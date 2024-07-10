@@ -54,11 +54,18 @@ jobs:
           inlineScript: |
             az acr build --registry testtodelete1234 --image web-api:${{ github.run_id }}.${{ github.run_attempt }} --file ${{ github.workspace}}/src/WebAPI.Dockerfile ${{ github.workspace}}/src
 
+      # - name: Deploy Container App
+      #   uses: azure/container-apps-deploy-action@v1
+      #   with:
+      #     imageToDeploy: testtodelete1234.azurecr.io/web-api:${{ github.run_id }}.${{ github.run_attempt }}
+      #     containerAppName: hello-world-hm-2
+      #     resourceGroup: rg-dtm-jobmanager-dev
+      
       - name: Deploy Container App
-        uses: azure/container-apps-deploy-action@v1
+        uses: azure/cli@v2
         with:
-          imageToDeploy: testtodelete1234.azurecr.io/web-api:${{ github.run_id }}.${{ github.run_attempt }}
-          containerAppName: hello-world-hm-2
-          resourceGroup: rg-dtm-jobmanager-dev
+          azcliversion: latest
+          inlineScript: |
+            az containerapp update --name hello-world-hm-2 --resource-group rg-dtm-jobmanager-dev --image testtodelete1234.azurecr.io/web-api:${{ github.run_id }}.${{ github.run_attempt }}
       
 
