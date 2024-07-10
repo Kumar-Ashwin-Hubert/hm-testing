@@ -53,3 +53,9 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az acr build --registry testtodelete1234 --image web-api:${{ github.run_id }}.${{ github.run_attempt }} --file ${{ github.workspace}}/src/WebAPI.Dockerfile ${{ github.workspace}}/src
+
+      - name: Deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          imageToDeploy: testtodelete1234.azurecr.io/web-api:${{ github.run_id }}.${{ github.run_attempt }}
+
