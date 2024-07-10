@@ -58,4 +58,7 @@ jobs:
         uses: azure/container-apps-deploy-action@v1
         with:
           imageToDeploy: testtodelete1234.azurecr.io/web-api:${{ github.run_id }}.${{ github.run_attempt }}
+          containerAppName: hello-world-hm-2
+          resourceGroup: rg-dtm-jobmanager-dev
+      
 
