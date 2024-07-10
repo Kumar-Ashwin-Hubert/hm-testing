@@ -69,4 +69,3 @@ jobs:
           inlineScript: |
             az containerapp update --name hello-world-hm-3 --resource-group rg-dtm-jobmanager-dev --image testtodelete1234.azurecr.io/web-api:${{ github.run_id }}.${{ github.run_attempt }}
       
-
